@@ -1,0 +1,18 @@
+.DS_Store
+**/.DS_Store
+.vercel
+.env
+.env.*
+!.env.example
+node_modules/
+*.log
+.idea/
+.vscode/
+
+# Personal / local notes
+テンプレ　PM応募.txt
+Thumbs.db
+**/Thumbs.db
+
+# WordPress (contains credentials; not used on Vercel static host)
+leadership-roundtable/

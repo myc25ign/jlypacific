@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>THE SANCTUARY | OPERATING</title>
+    <style>
+        body { background: #050505; color: #333; font-family: 'Courier New', monospace; overflow: hidden; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
+        #log { position: absolute; top: 10px; left: 10px; font-size: 10px; color: #1a1a1a; line-height: 1.2; pointer-events: none; }
+        .panel { z-index: 10; border: 1px solid #222; padding: 40px; background: rgba(0,0,0,0.9); box-shadow: 0 0 20px rgba(0,0,0,1); }
+        h1 { font-size: 12px; letter-spacing: 5px; color: #444; margin-bottom: 30px; text-align: center; }
+        .control { margin: 20px 0; display: flex; flex-direction: column; }
+        input[type=range] { width: 300px; cursor: crosshair; filter: grayscale(1); }
+        label { font-size: 9px; margin-bottom: 5px; color: #666; letter-spacing: 2px; }
+        button { background: none; border: 1px solid #444; color: #444; padding: 10px 20px; cursor: pointer; font-size: 10px; letter-spacing: 3px; transition: 0.3s; }
+        button:hover { color: #fff; border-color: #fff; background: #111; }
+    </style>
+</head>
+<body>
+    <div id="log"></div>
+    <div class="panel">
+        <h1>AUTONOMOUS COMPUTATION</h1>
+        <div class="control">
+            <label>DEPTH (DEBRIS GRAVITY)</label>
+            <input type="range" id="depth" min="20" max="80" value="40">
+        </div>
+        <div class="control">
+            <label>CORRUPTION (NOISE)</label>
+            <input type="range" id="corruption" min="0" max="1" step="0.01" value="0.1">
+        </div>
+        <div class="control">
+            <label>DUCK RESONANCE</label>
+            <input type="range" id="duck" min="100" max="1000" value="440">
+        </div>
+        <div style="text-align: center; margin-top: 30px;">
+            <button id="startBtn">ACTIVATE SANCTUARY</button>
+        </div>
+    </div>
+
+    <script>
+        let audioCtx, osc, lfo, noise, filter, duckOsc;
+        const logEl = document.getElementById('log');
+
+        // デブリログの垂れ流し
+        setInterval(() => {
+            const debris = ["[DELETED]", "[ERR_0x8F]", "[REJECTED_BY_AI]", "www.noise.shibuya", "NULL", "0101011", "BYE_WORLD"];
+            const line = document.createElement('div');
+            line.textContent = `${new Date().toISOString()} : ${debris[Math.floor(Math.random()*debris.length)]} : ${Math.random().toString(16)}`;
+            logEl.prepend(line);
+            if(logEl.childNodes.length > 50) logEl.lastChild.remove();
+        }, 100);
+
+        document.getElementById('startBtn').addEventListener('click', () => {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // --- 深層重低音 (Depth) ---
+                osc = audioCtx.createOscillator();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(40, audioCtx.currentTime);
+                
+                // --- ノイズ成分 (Corruption) ---
+                const bufferSize = 2 * audioCtx.sampleRate;
+                const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const output = noiseBuffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) { output[i] = Math.random() * 2 - 1; }
+                noise = audioCtx.createBufferSource();
+                noise.buffer = noiseBuffer;
+                noise.loop = true;
+
+                // フィルターとゲイン
+                filter = audioCtx.createBiquadFilter();
+                filter.type = 'lowpass';
+                const gain = audioCtx.createGain();
+                gain.gain.value = 0.2;
+
+                // アヒル共鳴 (Duck)
+                duckOsc = audioCtx.createOscillator();
+                duckOsc.type = 'sawtooth';
+                const duckGain = audioCtx.createGain();
+                duckGain.gain.value = 0.02;
+
+                // 接続
+                osc.connect(gain);
+                noise.connect(filter);
+                filter.connect(gain);
+                duckOsc.connect(duckGain);
+                duckGain.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start();
+                noise.start();
+                duckOsc.start();
+                document.getElementById('startBtn').textContent = "OPERATING...";
+            }
+        });
+
+        // スライダー連動
+        document.getElementById('depth').addEventListener('input', (e) => osc.frequency.setValueAtTime(e.target.value, audioCtx.currentTime));
+        document.getElementById('corruption').addEventListener('input', (e) => filter.frequency.setValueAtTime(e.target.value * 2000, audioCtx.currentTime));
+        document.getElementById('duck').addEventListener('input', (e) => duckOsc.frequency.setValueAtTime(e.target.value, audioCtx.currentTime));
+    </script>
+</body>
+</html>
