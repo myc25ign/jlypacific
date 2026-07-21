@@ -3908,3 +3908,59 @@ Primary use:	Showcase Portfolio
 		display:block;
 	}
 }
+/*--------------------------------------------------
+	Company Profile Table (Custom)
+----------------------------------------------------*/
+.company-profile-table {
+	width: 100%;
+	border-collapse: collapse;
+	margin: 0;
+}
+
+.company-profile-table tr {
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.company-profile-table tr:first-child {
+	border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+.company-profile-table th,
+.company-profile-table td {
+	padding: 22px 16px;
+	text-align: left;
+	vertical-align: top;
+	font-size: 15px;
+	line-height: 1.8;
+}
+
+.company-profile-table th {
+	width: 220px;
+	font-weight: 600;
+	opacity: 0.55;
+	white-space: nowrap;
+}
+
+.dark-section .company-profile-table tr,
+.dark-section .company-profile-table tr:first-child {
+	border-color: rgba(255,255,255,0.15);
+}
+
+@media only screen and (max-width: 767px) {
+	.company-profile-table th,
+	.company-profile-table td {
+		display: block;
+		width: 100%;
+		padding: 4px 16px;
+	}
+
+	.company-profile-table th {
+		padding-top: 18px;
+		opacity: 0.5;
+		font-size: 13px;
+	}
+
+	.company-profile-table td {
+		padding-bottom: 18px;
+	}
+}
