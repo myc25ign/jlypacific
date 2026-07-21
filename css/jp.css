@@ -59,4 +59,18 @@ html[lang="ja"] .has-opacity {
 		margin-left: auto;
 		margin-right: auto;
 	}
+
+	html[lang="ja"] .list-rotator-title {
+		font-size: 14px;
+		letter-spacing: 0.08em;
+	}
+
+	html[lang="ja"] .list-rotator li {
+		font-family: 'Noto Sans JP', 'Poppins', sans-serif;
+		font-size: calc(0.6rem + 3.6vw);
+		line-height: 1.6;
+		letter-spacing: 0.02em;
+		font-weight: 500;
+		white-space: nowrap;
+	}
 }
