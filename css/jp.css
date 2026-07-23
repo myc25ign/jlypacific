@@ -11,12 +11,22 @@ html[lang="ja"] .has-opacity {
 @media only screen and (min-width: 1025px) {
 	html[lang="ja"] .fullscreen-menu .flexnav > li > a {
 		font-family: 'Noto Sans JP', 'Poppins', sans-serif;
-		font-size: 2.6rem;
+		font-size: 2.21rem;
 		line-height: 1.4;
 		text-transform: none;
 		letter-spacing: 0.06em;
 		font-weight: 400;
 		padding: 0 24px;
+	}
+
+	html[lang="ja"] .hero-title {
+		font-size: calc(0.85rem + 20.53vw);
+		line-height: calc(0.85rem + 18.7vw);
+	}
+
+	html[lang="ja"] .next-hero-title {
+		font-size: calc(0.85rem + 20.53vw);
+		line-height: calc(0.85rem + 12.33vw);
 	}
 
 	html[lang="ja"] .fullscreen-menu .flexnav .touch-button {
